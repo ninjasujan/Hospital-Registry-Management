@@ -92,6 +92,14 @@ exports.deletePatient = (req, res, next) => {
   }
   Patient.deleteOne({ patientId: patientId })
     .then((deleted) => {
+      console.log("Deleted", deleted);
+      if (deleted.deletedCount == 0) {
+        const error = new Error(
+          "Patient information not exist, please check patient ID"
+        );
+        error.statusCode = 403;
+        throw error;
+      }
       return res.status(200).json({
         message: "Patient entry removed.",
         patient: deleted,
