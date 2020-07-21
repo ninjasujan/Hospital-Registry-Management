@@ -6,11 +6,13 @@ require("dotenv").config();
 const app = express();
 
 const authRoutes = require("./routes/auth");
+const patientRoutes = require("./routes/patient");
 
 // middlewares
 app.use(bodyParser.json());
 
 app.use("/auth", authRoutes);
+app.use("/patient", patientRoutes);
 
 // express Error-Handling
 app.use((err, req, res, next) => {

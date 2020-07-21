@@ -103,3 +103,5 @@ exports.checkSignup = (req, res, next) => {
       next(err);
     });
 };
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjE2OTRiNTZjMGJlYzNlMWMyYTg4YWIiLCJpYXQiOjE1OTUzMTU0MTJ9.B0jDv-YbnvvLERqxDo6c4z4qMl1JQuTU2fCbuplvmlk
