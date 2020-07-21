@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { body } = require("express-validator");
 
-const { signUp } = require("../controllers/auth");
+const { signUp, login, checkSignup } = require("../controllers/auth");
 
 router.post(
   "/signup",
@@ -13,7 +13,8 @@ router.post(
       .withMessage("Please enter valid name."),
     body("username")
       .trim()
-      .isLength({ min: 3 })
+      .isLength({ min: 5 })
+      .normalizeEmail()
       .withMessage("Please add valid E-Mail"),
     body("password")
       .trim()
@@ -24,5 +25,22 @@ router.post(
   ],
   signUp
 );
+
+router.post(
+  "/login",
+  [
+    body("username")
+      .trim()
+      .isLength({ min: 5 })
+      .withMessage("Please enter valid username"),
+    body("password")
+      .trim()
+      .isLength({ min: 5 })
+      .withMessage("Please enter valid password"),
+  ],
+  login
+);
+
+router.get("/signup", checkSignup);
 
 module.exports = router;
