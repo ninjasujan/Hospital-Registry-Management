@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 exports.signUp = (req, res, next) => {
-  console.log("[SIGNUP]", req.body);
   const error = validationResult(req);
   if (!error.isEmpty()) {
     error.message = error.errors[0].msg;
@@ -17,7 +16,6 @@ exports.signUp = (req, res, next) => {
   bcrypt
     .hash(password, 12)
     .then((hashedPassword) => {
-      console.log("[Hashed Password]");
       const user = new User({
         name: name,
         password: hashedPassword,
@@ -26,7 +24,6 @@ exports.signUp = (req, res, next) => {
       return user.save();
     })
     .then((user) => {
-      console.log("[User Registered]");
       return res.status(201).json({
         message: "User registered.",
         userId: user._id,
@@ -41,7 +38,6 @@ exports.signUp = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-  console.log("[auth.js] login", req.body);
   const error = validationResult(req);
   if (!error.isEmpty()) {
     error.message = error.errors[0].msg;

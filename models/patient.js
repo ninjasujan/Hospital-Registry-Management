@@ -12,6 +12,7 @@ const patientSchema = new Schema({
   },
   birthDate: {
     type: Date,
+    default: null,
   },
   location: {
     type: String,
@@ -19,6 +20,7 @@ const patientSchema = new Schema({
   },
   address: {
     type: String,
+    default: null,
   },
   contact: {
     type: String,
