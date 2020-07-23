@@ -7,12 +7,16 @@ const app = express();
 
 const authRoutes = require("./routes/auth");
 const patientRoutes = require("./routes/patient");
+const prescriptionRoute = require("./routes/prescription");
+const timingsRoute = require("./routes/timings");
 
 // middlewares
 app.use(bodyParser.json());
 
 app.use("/auth", authRoutes);
 app.use("/patient", patientRoutes);
+app.use("/prescription", prescriptionRoute);
+app.use("/timings", timingsRoute);
 
 // express Error-Handling
 app.use((err, req, res, next) => {

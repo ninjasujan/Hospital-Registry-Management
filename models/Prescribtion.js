@@ -19,13 +19,13 @@ const medicineSchema = new Schema({
 const prescriptionSchema = new Schema(
   {
     patientId: {
-      type: String,
+      type: Schema.Types.ObjectId,
       required: true,
       ref: "Patients",
     },
     date: {
-      type: Date,
-      default: Date.now(),
+      type: String,
+      required: true,
     },
     isOver: {
       type: Boolean,

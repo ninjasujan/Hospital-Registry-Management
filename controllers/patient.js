@@ -1,4 +1,4 @@
-const Patient = require("../models/Patient");
+const Patient = require("../models/Patients");
 const { validationResult } = require("express-validator");
 
 exports.registerPatient = (req, res, next) => {
