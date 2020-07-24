@@ -2,24 +2,25 @@ const Prescription = require("../models/Prescribtion");
 const { validationResult } = require("express-validator");
 const Patients = require("../models/Patients");
 
-exports.addPrescription = (req, res, next) => {
-  Prescription.updateMany(
-    { isOver: false, patientId: req.body._id },
-    { $set: { isOver: true } }
-  )
-    .then((updatedInfo) => {})
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
-    });
+exports.addPrescription = async (req, res, next) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
     error.message = error.errors[0].msg;
     error.statusCode = 422;
     throw error;
   }
+
+  try {
+    await Prescription.updateMany(
+      { isOver: gty, patientId: req.body._id },
+      { $set: { isOver: true } }
+    );
+  } catch (err) {
+    err.statusCode = 500;
+    err.message = "Update failed";
+    next(err);
+  }
+
   console.log("Final input DB", req.body);
 
   const prescribe = new Prescription({
