@@ -10,7 +10,7 @@ const patientRoutes = require("./routes/patient");
 const prescriptionRoute = require("./routes/prescription");
 const timingsRoute = require("./routes/timings");
 
-// const { eventOne, eventTwo } = require("./cron-job/cron-shedule");
+const { eventOne, eventTwo } = require("./cron-job/cron-shedule");
 
 // middlewares
 app.use(bodyParser.json());

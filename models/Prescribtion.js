@@ -36,4 +36,11 @@ const prescriptionSchema = new Schema(
   { timestamps: true }
 );
 
+prescriptionSchema.methods.filterMedicineList = function () {
+  this.medicineList = this.medicineList.filter((medicine) => {
+    return medicine.timings[0] === 1 && medicine.till >= new Date();
+  });
+  return this;
+};
+
 module.exports = mongoose.model("Prescription", prescriptionSchema);
