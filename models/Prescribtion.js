@@ -36,11 +36,27 @@ const prescriptionSchema = new Schema(
   { timestamps: true }
 );
 
-prescriptionSchema.methods.filterMedicineList = function () {
+prescriptionSchema.methods.filterMedicineList = function (index) {
   this.medicineList = this.medicineList.filter((medicine) => {
-    return medicine.timings[0] === 1 && medicine.till >= new Date();
+    return medicine.timings[index] === 1 && medicine.till >= new Date();
   });
   return this;
+};
+
+prescriptionSchema.methods.updateStatus = function () {
+  console.log("[Updating status in DB...]");
+  let isUpdate = true;
+  this.medicineList.forEach((medicine) => {
+    if (medicine.till > new Date()) {
+      isUpdate = false;
+    }
+  });
+  if (isUpdate) {
+    console.log("[isover set to true]");
+    this.isOver = true;
+  } else {
+    console.log("[isOver remains false ]");
+  }
 };
 
 module.exports = mongoose.model("Prescription", prescriptionSchema);

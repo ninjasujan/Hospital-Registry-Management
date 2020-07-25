@@ -12,7 +12,7 @@ exports.addPrescription = async (req, res, next) => {
 
   try {
     await Prescription.updateMany(
-      { isOver: gty, patientId: req.body._id },
+      { isOver: false, patientId: req.body._id },
       { $set: { isOver: true } }
     );
   } catch (err) {

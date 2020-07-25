@@ -20,7 +20,7 @@ const mailUtility = (timeIndex) => {
 
       filteredList.forEach((prescription) => {
         if (prescription.medicineList.length > 0) {
-          console.log("[Prescription]", prescription);
+          // console.log("[Prescription]", prescription);
           let ob = {};
           ob.name = prescription.patientId.name;
           let medicinesName = [];
@@ -33,13 +33,12 @@ const mailUtility = (timeIndex) => {
       });
 
       console.log("***************************************************");
-      console.log(messageInfoList);
 
       messageInfoList.forEach((mail) => {
         console.log(
           `Dear ${
-            mail.patientId.name
-          }, \n The below is the list of medicines you need to take in the ${time} \n session \n ${mail.medicinesName.join(
+            mail.name
+          }, \n The below is the list of medicines you need to take in the ${time} session \n ${mail.medicinesName.join(
             " "
           )}`
         );
@@ -48,10 +47,27 @@ const mailUtility = (timeIndex) => {
     });
 };
 
-exports.eventOne = cron.schedule("* * * * * *", () => {
-  mailUtility();
-});
-
-// exports.eventTwo = cron.schedule("*/2 * * * * *", () => {
-//   console.log("[Cron Job runs for every [two] seconds..]");
+// exports.eventOne = cron.schedule("* * * * * *", () => {
+//   mailUtility(1);
 // });
+
+exports.eventTwo = cron.schedule("*/3 * * * * *", () => {
+  Prescription.find({ isOver: false })
+    .then((list) => {
+      list.forEach((medicines) => {
+        medicines.updateStatus();
+      });
+      list.forEach((eachList) => {
+        return eachList.save();
+      });
+    })
+    .then((dbUpdated) => {
+      console.log("[Update Utility function fired.]");
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+});
