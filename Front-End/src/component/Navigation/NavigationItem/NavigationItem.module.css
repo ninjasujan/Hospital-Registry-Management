@@ -1,5 +1,9 @@
 .NavItem {
+  color: #2c3335;
+  font-weight: 500;
+  font-size: 1.3em;
+}
+
+.Active {
   color: #fff;
-  font-weight: 200;
-  font-size: 1.2em;
 }

@@ -1,10 +1,11 @@
 import React from "react";
+import Layout from "./container/Layout/Layout";
 
 function App() {
   return (
-    <div className="App">
-      <h2>Hospital-Registory-Management</h2>
-    </div>
+    <Layout>
+      <h1>Hospiatl</h1>
+    </Layout>
   );
 }
 
