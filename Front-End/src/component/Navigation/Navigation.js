@@ -32,9 +32,9 @@ const navigation = (props) => {
             <NavigationItem link="/prescription"> Prescription </NavigationItem>
             <NavigationItem link="/history">History</NavigationItem>
             {props.isAuth ? (
-              <NavigationItem link="/signout"> Logout </NavigationItem>
+              <NavigationItem link="/logout"> Logout </NavigationItem>
             ) : (
-              <NavigationItem link="/auth"> Auth </NavigationItem>
+              <NavigationItem link="/signup"> Auth </NavigationItem>
             )}
           </div>
         </div>

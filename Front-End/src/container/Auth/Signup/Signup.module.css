@@ -1,0 +1,8 @@
+.Signup {
+  width: 80%;
+  margin: 60px auto;
+}
+
+.InputControl input {
+  border: 1px solid #ccc;
+}
