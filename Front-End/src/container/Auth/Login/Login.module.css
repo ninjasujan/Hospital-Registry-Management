@@ -1,0 +1,11 @@
+.Login {
+  width: 95%;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 470px) {
+  .Login {
+    width: 60%;
+    margin: 0 auto;
+  }
+}

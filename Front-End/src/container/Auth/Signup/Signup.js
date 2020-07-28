@@ -1,23 +1,27 @@
 import React, { Component } from "react";
 import classes from "./Signup.module.css";
+import * as actions from "../../../store/action/auth";
+import { connect } from "react-redux";
+
 import {
   nameValidate,
   emailValidate,
   passwordValidate,
   reTypeValidate,
 } from "../../../Utility/validator";
+import Spinner from "../../../component/UI/Spinner/Spinner";
 
 class Signup extends Component {
   state = {
     authData: {
-      name: "",
-      userName: "",
-      password: "",
-      confirmPassword: "",
+      name: "Sujan Poojary",
+      userName: "sujan@gmail.com",
+      password: "1234567",
+      confirmPassword: "1234567",
       key: "",
     },
     isValidForm: false,
-    inputError: null,
+    inputError: "Please add all credentials",
   };
 
   inputChangeHandler = (input, identifier) => {
@@ -52,24 +56,47 @@ class Signup extends Component {
       isValid = false;
       msg = "Please confirm your Password";
     }
+
     if (isValid) {
-      this.setState({ isValidForm: true, inputError: null });
+      this.setState((prevState) => {
+        return {
+          isValidForm: true,
+          inputError: null,
+        };
+      });
+      this.props.onSignupHandler(this.state.authData);
     } else {
-      this.setState({ isValidForm: false, inputError: msg });
+      this.setState((prevState) => {
+        return {
+          isValidForm: false,
+          inputError: msg,
+        };
+      });
     }
   };
 
   render() {
     const inputClasses = ["form-group"];
     inputClasses.push(classes["InputControl"]);
-    return (
+    return this.props.loading ? (
+      <Spinner />
+    ) : (
       <form className={classes.Signup}>
         <div className="text-center">
           <h2 className="display-5 py-3">Create Account</h2>
-          {!this.state.isValidForm ? (
-            <span className="lead badge badge-danger py-2 px-3">
-              {this.state.inputError}
-            </span>
+          {!this.state.isValidForm || this.props.error ? (
+            <div className="row">
+              <div className="col-md-6 offset-sm-3 text-left">
+                <div
+                  className="alert alert-danger lead text-center"
+                  style={{ fontSize: "0.9em" }}
+                >
+                  {this.state.inputError
+                    ? this.state.inputError
+                    : this.props.error}
+                </div>
+              </div>
+            </div>
           ) : null}
         </div>
         <div className={inputClasses.join(" ")}>
@@ -140,4 +167,18 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.auth.loading,
+    token: state.auth.token,
+    error: state.auth.error,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSignupHandler: (authData) => dispatch(actions.signup(authData)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
