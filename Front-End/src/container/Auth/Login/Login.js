@@ -5,12 +5,14 @@ import * as actions from "../../../store/action/auth";
 import { emailValidate } from "../../../Utility/validator";
 import classes from "./Login.module.css";
 import Spinner from "../../../component/UI/Spinner/Spinner";
+import withErrorHandler from "../../../HOC/Error/Error";
+import axios from "../../../axios/axios";
 
 class Login extends Component {
   state = {
     authData: {
-      userName: "",
-      password: "",
+      userName: "sujan@gmail.com",
+      password: "1234567",
     },
     isValidForm: false,
     inputError: "Enter Login credentials",
@@ -108,4 +110,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withErrorHandler(Login, axios));

@@ -2,7 +2,7 @@ import React from "react";
 
 import NavigationItem from "./NavigationItem/NavigationItem";
 import classes from "./Navigation.module.css";
-import Logo from "../Logo/Logo";
+import Logo from "../UI/Logo/Logo";
 
 const navigation = (props) => {
   const assignedClass = "navbar navbar-expand-md navbar-dark".split(" ");
@@ -31,7 +31,7 @@ const navigation = (props) => {
             <NavigationItem link="/"> Patient </NavigationItem>
             <NavigationItem link="/prescription"> Prescription </NavigationItem>
             <NavigationItem link="/history">History</NavigationItem>
-            {props.isAuth ? (
+            {props.isLoggedIn ? (
               <NavigationItem link="/logout"> Logout </NavigationItem>
             ) : (
               <NavigationItem link="/signup"> Auth </NavigationItem>

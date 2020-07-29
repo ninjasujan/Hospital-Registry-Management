@@ -24,6 +24,14 @@ class Signup extends Component {
     inputError: "Please add all credentials",
   };
 
+  componentDidMount() {
+    console.log("[Signup.js] component mount");
+    if (this.props.isSignedUp) {
+      console.log("[Signup Success] redirect to login");
+      this.props.history.replace("/login");
+    }
+  }
+
   inputChangeHandler = (input, identifier) => {
     const updatedAuthData = { ...this.state.authData };
     updatedAuthData[identifier] = input.target.value;
@@ -172,6 +180,7 @@ const mapStateToProps = (state) => {
     loading: state.auth.loading,
     token: state.auth.token,
     error: state.auth.error,
+    isSignedUp: state.auth.isSignedUp,
   };
 };
 

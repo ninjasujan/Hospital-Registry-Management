@@ -1,19 +1,66 @@
-import React from "react";
+import React, { Component } from "react";
+
 import Layout from "./container/Layout/Layout";
 import Signup from "./container/Auth/Signup/Signup";
-
-import { Route, Switch } from "react-router-dom";
+import Logout from "./container/Auth/Logout/Logout";
 import Login from "./container/Auth/Login/Login";
+import * as actions from "./store/action/auth";
+import Patient from "./container/Patient/Patient";
+import {
+  LoginRoute,
+  AuthRoute,
+  SignupRoute,
+} from "./Route-Protected/LoginRoute";
 
-function App() {
-  return (
-    <Layout>
-      <Switch>
-        <Route path="/signup" exact component={Signup} />
-        <Route path="/login" exact component={Login} />
-      </Switch>
-    </Layout>
-  );
+import { Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
+
+class App extends Component {
+  componentDidMount() {
+    this.props.tryAutoLogin();
+    this.props.checkSignup();
+  }
+  render() {
+    return (
+      <Layout isLoggedIn={this.props.isAuth}>
+        <Switch>
+          <SignupRoute
+            path="/signup"
+            exact
+            isSignedUp={this.props.isSignedUp}
+            component={Signup}
+          />
+          <LoginRoute
+            path="/login"
+            exact
+            isAuth={this.props.isAuth}
+            component={Login}
+          />
+          <AuthRoute
+            path="/logout"
+            exact
+            isAuth={this.props.isAuth}
+            component={Logout}
+          />
+          <Route to="/" component={Patient} />
+        </Switch>
+      </Layout>
+    );
+  }
 }
 
-export default App;
+const mapStateToProsp = (state) => {
+  return {
+    isAuth: state.auth.token !== null,
+    isSignedUp: state.auth.isSignedUp,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    tryAutoLogin: () => dispatch(actions.autoLogin()),
+    checkSignup: () => dispatch(actions.checkSignup()),
+  };
+};
+
+export default connect(mapStateToProsp, mapDispatchToProps)(App);

@@ -4,6 +4,7 @@ const initialState = {
   token: null,
   loading: false,
   error: null,
+  isSignedUp: false,
 };
 
 const signupStarts = (state, action) => {
@@ -11,6 +12,7 @@ const signupStarts = (state, action) => {
     ...state,
     loading: true,
     error: null,
+    isSignedUp: false,
   };
 };
 
@@ -18,6 +20,7 @@ const signupSuccess = (state, action) => {
   return {
     ...state,
     loading: false,
+    isSignedUp: true,
   };
 };
 
@@ -54,6 +57,53 @@ const loginFaild = (state, action) => {
   };
 };
 
+const logoutStarted = (state, action) => {
+  return {
+    ...state,
+    loading: true,
+  };
+};
+
+const logoutSuccess = (state, action) => {
+  return {
+    ...state,
+    loading: false,
+    token: null,
+    error: null,
+  };
+};
+
+const logoutFailed = (state, action) => {
+  return {
+    ...state,
+    loading: false,
+    error: action.error,
+  };
+};
+
+const checkSignupStarted = (state, action) => {
+  return {
+    ...state,
+    loading: true,
+  };
+};
+
+const checkSignupSuccess = (state, action) => {
+  return {
+    ...state,
+    loading: false,
+    isSignedUp: true,
+  };
+};
+
+const checkSignupFailed = (state, action) => {
+  return {
+    ...state,
+    loading: false,
+    isSignedUp: false,
+  };
+};
+
 const authReducers = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SIGNUP_STARTED:
@@ -73,6 +123,24 @@ const authReducers = (state = initialState, action) => {
 
     case actionTypes.LOGIN_FAILED:
       return loginFaild(state, action);
+
+    case actionTypes.LOGOUT_STARTED:
+      return logoutStarted(state, action);
+
+    case actionTypes.LOGOUT_SUCCESS:
+      return logoutSuccess(state, action);
+
+    case actionTypes.LOGOUT_FAILED:
+      return logoutFailed(state, action);
+
+    case actionTypes.CHECK_SIGNUP_STARTED:
+      return checkSignupStarted(state, action);
+
+    case actionTypes.CHECK_SIGNUP_SUCCESS:
+      return checkSignupSuccess(state, action);
+
+    case actionTypes.CHECK_SIGNUP_FAILED:
+      return checkSignupFailed(state, action);
 
     default:
       return state;

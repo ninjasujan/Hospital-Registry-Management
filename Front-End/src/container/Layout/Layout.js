@@ -5,7 +5,7 @@ import classes from "./Layout.module.css";
 const layout = (props) => {
   return (
     <div>
-      <Navigation />
+      <Navigation isLoggedIn={props.isLoggedIn} />
       <main className={classes.Main}>{props.children}</main>
     </div>
   );

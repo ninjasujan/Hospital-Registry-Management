@@ -14,3 +14,7 @@ export const passwordValidate = (password) => {
 export const reTypeValidate = (password, confirmPass) => {
   return password === confirmPass;
 };
+
+export const contactValidate = (number) => {
+  return number.length === 10;
+};

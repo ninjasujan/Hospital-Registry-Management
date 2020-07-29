@@ -63,9 +63,87 @@ export const login = (authData) => {
       .then((response) => {
         console.log("[Login response]", response);
         dispatch(loginSuccess(response.data.token));
+        localStorage.setItem("token", response.data.token);
       })
       .catch((err) => {
+        console.log("[Login.js] Failed", err.response);
         dispatch(loginFailed(err.response.data.error));
+      });
+  };
+};
+
+export const autoLogin = () => {
+  return (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      dispatch(loginFailed());
+    } else {
+      dispatch(loginSuccess(token));
+    }
+  };
+};
+
+const logoutStarted = () => {
+  return {
+    type: actionTypes.LOGOUT_STARTED,
+  };
+};
+
+const logoutSuccess = () => {
+  return {
+    type: actionTypes.LOGOUT_SUCCESS,
+  };
+};
+
+const logoutFailed = () => {
+  return {
+    type: actionTypes.LOGIN_FAILED,
+  };
+};
+
+export const logout = () => {
+  return (dispatch) => {
+    dispatch(logoutStarted());
+    const token = localStorage.getItem("token");
+    if (!token) {
+      dispatch(logoutFailed("Please login first"));
+    } else {
+      localStorage.removeItem("token");
+      dispatch(logoutSuccess());
+    }
+  };
+};
+
+const checkSignupStarted = () => {
+  return {
+    type: actionTypes.CHECK_SIGNUP_STARTED,
+  };
+};
+
+const checkSignupSuccess = () => {
+  return {
+    type: actionTypes.CHECK_SIGNUP_SUCCESS,
+  };
+};
+
+const checkSignupFailed = () => {
+  return {
+    type: actionTypes.CHECK_SIGNUP_FAILED,
+  };
+};
+
+export const checkSignup = () => {
+  return (dispatch) => {
+    dispatch(checkSignupStarted());
+    axios
+      .get("/auth/signup")
+      .then((response) => {
+        console.log("[Check Signup sucsess]", response);
+        dispatch(checkSignupSuccess());
+      })
+      .catch((err) => {
+        console.log("[Check signup failed]", err.response);
+        dispatch(checkSignupFailed());
       });
   };
 };

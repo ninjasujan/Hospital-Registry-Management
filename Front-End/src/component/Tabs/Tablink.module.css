@@ -1,0 +1,10 @@
+.TabLink {
+  margin: 40px auto;
+  width: 90%;
+}
+
+@media screen and (min-width: 600px) {
+  .TabLink {
+    width: 70%;
+  }
+}
