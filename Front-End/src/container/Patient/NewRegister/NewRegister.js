@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import classes from "./NewRegister.module.css";
 import { nameValidate, contactValidate } from "../../../Utility/validator";
+import Spinner from "../../../component/UI/Spinner/Spinner";
+import * as actions from "../../../store/action/patient";
+import { connect } from "react-redux";
 
 class NewRegister extends Component {
   state = {
@@ -17,9 +20,15 @@ class NewRegister extends Component {
   };
 
   inputChangeHandler = (input, identifier) => {
-    console.log("Date of birth", input.target.value);
+    let value = input.target.value;
+    if (identifier === "name" || identifier === "location") {
+      let values = value
+        .split(" ")
+        .map((val) => val.charAt(0).toUpperCase() + val.slice(1));
+      value = values.join(" ");
+    }
     const updatedFormData = { ...this.state.patientData };
-    updatedFormData[identifier] = input.target.value;
+    updatedFormData[identifier] = value;
     this.setState({ patientData: updatedFormData });
   };
 
@@ -45,26 +54,42 @@ class NewRegister extends Component {
     }
     if (isValid) {
       this.setState({ isValidForm: true, inputError: null });
+      this.props.onPatientRegister(this.state.patientData, this.props.token);
     } else {
       this.setState({ isValidForm: false, inputError: msg });
     }
   };
 
   render() {
-    return (
+    let messageBoxClass = "alert lead text-center alert-danger".split(" ");
+    let message = "Please add valid information.";
+    if (this.props.isRegistered) {
+      message = "Patient registration successfull.";
+      messageBoxClass[3] = "alert-success";
+    }
+    if (this.props.error) {
+      message = this.props.error;
+      messageBoxClass[3] = "alert-danger";
+    }
+    if (!this.state.isValidForm) {
+      message = this.state.inputError;
+      messageBoxClass[3] = "alert-danger";
+    }
+    console.log("Class and message of Message Box", message, messageBoxClass);
+    return this.props.loading ? (
+      <Spinner />
+    ) : (
       <div className={classes.NewRegister}>
-        {!this.state.isValidForm ? (
-          <div className="row">
-            <div className="col-md-6 offset-sm-3 text-left">
-              <div
-                className="alert alert-danger lead text-center"
-                style={{ fontSize: "0.9em" }}
-              >
-                {this.state.inputError}
-              </div>
+        <div className="row">
+          <div className="col-md-6 offset-sm-3 text-left">
+            <div
+              className={messageBoxClass.join(" ")}
+              style={{ fontSize: "0.9em" }}
+            >
+              {message}
             </div>
           </div>
-        ) : null}
+        </div>
         <form>
           <div className="text-center">
             <h2>New Patient Registration</h2>
@@ -95,7 +120,7 @@ class NewRegister extends Component {
               type="date"
               className="form-control"
               onChange={(event) => this.inputChangeHandler(event, "birthDate")}
-              value={this.state.patientData.birthDate}
+              // value={this.state.patientData.birthDate}
             />
           </div>
           <div className="form-group">
@@ -109,7 +134,7 @@ class NewRegister extends Component {
             />
           </div>
           <div className="form-group">
-            <label>Contact Number</label>
+            <label>Location</label>
             <input
               type="text"
               className="form-control"
@@ -136,4 +161,20 @@ class NewRegister extends Component {
   }
 }
 
-export default NewRegister;
+const mapStateToProps = (state) => {
+  return {
+    token: state.auth.token,
+    loading: state.patient.loading,
+    error: state.patient.error,
+    isRegistered: state.patient.isRegistered,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onPatientRegister: (patientData, token) =>
+      dispatch(actions.registerPatient(patientData, token)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewRegister);

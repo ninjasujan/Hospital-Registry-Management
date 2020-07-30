@@ -8,11 +8,13 @@ import { BrowserRouter } from "react-router-dom";
 import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
+import patientReducer from "./store/reducers/patient";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducers = combineReducers({
   auth: authReducers,
+  patient: patientReducer,
 });
 
 const store = createStore(
