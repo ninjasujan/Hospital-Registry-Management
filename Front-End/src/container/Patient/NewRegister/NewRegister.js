@@ -145,7 +145,10 @@ class NewRegister extends Component {
           </div>
           <div className="form-group">
             <label>Address (Address is optional)</label>
-            <textarea className="form-control" />
+            <textarea
+              className="form-control"
+              onChange={(event) => this.inputChangeHandler(event, "address")}
+            ></textarea>
           </div>
           <div className="form-group text-center">
             <button
@@ -166,7 +169,7 @@ const mapStateToProps = (state) => {
     token: state.auth.token,
     loading: state.patient.loading,
     error: state.patient.error,
-    isRegistered: state.patient.isRegistered,
+    isRegistered: state.patient.isDone,
   };
 };
 

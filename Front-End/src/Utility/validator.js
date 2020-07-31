@@ -1,4 +1,5 @@
 export const nameValidate = (name) => {
+  if (!name) return false;
   return name.length > 2 ? true : false;
 };
 
