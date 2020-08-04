@@ -120,10 +120,10 @@ export const updatePatient = (updatedData, token) => {
   };
 };
 
-export const updatePatientData = (event, identifier) => {
+export const updatePatientData = (value, identifier) => {
   return {
     type: actionTypes.ON_CHANGE_UPDATE,
-    event: event,
+    value: value,
     identifier: identifier,
   };
 };

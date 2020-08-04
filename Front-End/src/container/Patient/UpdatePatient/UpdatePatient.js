@@ -47,9 +47,10 @@ class UpdatePatient extends Component {
   };
 
   inputChangeHandler = (input, id) => {
+    console.log("[Update Event]", input);
     if (!this.props.loaded) this.setState({ patientId: input.target.value });
     else {
-      this.props.onChangePatientData(input, id);
+      this.props.onChangePatientData(input.target.value, id);
     }
   };
 
@@ -96,7 +97,7 @@ class UpdatePatient extends Component {
               className="form-control"
               onChange={(event) => this.inputChangeHandler(event, "birthDate")}
               value={
-                this.props.birthDate
+                this.props.patientData.birthDate
                   ? this.props.patientData.birthDate.slice(0, 10)
                   : ""
               }
@@ -196,8 +197,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onGetPatientInfo: (patientId, token) =>
       dispatch(actions.getPatientInfo(patientId, token)),
-    onChangePatientData: (event, identifier) =>
-      dispatch(actions.updatePatientData(event, identifier)),
+    onChangePatientData: (value, identifier) =>
+      dispatch(actions.updatePatientData(value, identifier)),
     onPatientUpdate: (data, token) =>
       dispatch(actions.updatePatient(data, token)),
   };

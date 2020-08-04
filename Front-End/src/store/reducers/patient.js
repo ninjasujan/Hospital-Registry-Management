@@ -98,7 +98,7 @@ const updatePatientData = (state, action) => {
     ...state,
     patientData: {
       ...state.patientData,
-      [action.identifier]: action.event.target.value,
+      [action.identifier]: action.value,
     },
   };
 };

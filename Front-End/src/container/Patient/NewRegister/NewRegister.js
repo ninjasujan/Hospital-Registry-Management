@@ -120,7 +120,7 @@ class NewRegister extends Component {
               type="date"
               className="form-control"
               onChange={(event) => this.inputChangeHandler(event, "birthDate")}
-              // value={this.state.patientData.birthDate}
+              value={this.state.patientData.birthDate}
             />
           </div>
           <div className="form-group">
