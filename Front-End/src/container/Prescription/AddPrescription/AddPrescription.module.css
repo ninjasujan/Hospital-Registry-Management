@@ -1,0 +1,36 @@
+.AddPrescription {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.AddPrescription input[type="checkbox"]:hover {
+  cursor: pointer;
+}
+
+.CheckList {
+  display: flex;
+  justify-content: space-around;
+}
+
+input[type="submit"]:disabled {
+  cursor: no-drop;
+  color: grey;
+  color: #fff;
+}
+
+.Form input[type="checkbox"] {
+  width: 23px;
+  height: 23px;
+}
+
+.Label {
+  padding-left: 10px;
+  font-size: 1.2em;
+}
+
+@media screen and (min-width: 600px) {
+  .AddPrescription {
+    width: 70%;
+    margin: 0 auto;
+  }
+}

@@ -6,6 +6,7 @@ import Logout from "./container/Auth/Logout/Logout";
 import Login from "./container/Auth/Login/Login";
 import * as actions from "./store/action/auth";
 import Patient from "./container/Patient/Patient";
+import Prescription from "./container/Prescription/Prescription";
 import {
   LoginRoute,
   AuthRoute,
@@ -42,7 +43,8 @@ class App extends Component {
             isAuth={this.props.isAuth}
             component={Logout}
           />
-          <Route to="/" component={Patient} />
+          <Route path="/prescription" component={Prescription} />
+          <Route path="/" component={Patient} />
         </Switch>
       </Layout>
     );

@@ -20,6 +20,7 @@ class NewRegister extends Component {
   };
 
   inputChangeHandler = (input, identifier) => {
+    // console.log("[Event]", input.target.type);
     let value = input.target.value;
     if (identifier === "name" || identifier === "location") {
       let values = value

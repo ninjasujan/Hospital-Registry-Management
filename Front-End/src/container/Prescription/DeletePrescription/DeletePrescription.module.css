@@ -1,0 +1,11 @@
+.DeletePrescription {
+  width: 90%;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 600px) {
+  .DeletePrescription {
+    width: 70%;
+    margin: 0 auto;
+  }
+}
